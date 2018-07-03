@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+
+<!-- Page Header -->
+
+{% block body %}
+<header class="masthead" style="background-image:  url('{{url_for('static', filename='img/post-bg.jpg') }}')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="page-heading">
+                    <h1>Edit Post</h1>
+                    <span class="subheading">Add blog post here.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <form name="addForm" method="POST" action="{{ url_for('edit', post_id=post_id) }}" id="contactForm" novalidate>
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        <label>Title</label>
+                        <input type="text" class="form-control" placeholder="Title" name="title" id="title" required
+                               data-validation-required-message="Please enter title." value="{{ title }}">
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        <label>SubTitle</label>
+                        <input type="text" class="form-control" placeholder="Subtitle" name="subtitle" id="subtitle"
+                               required data-validation-required-message="Please enter sub-title."
+                               value="{{ subtitle }}">
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="form-group floating-label-form-group controls">
+                        <label>Blog Content</label>
+                        <textarea rows="5" class="form-control" placeholder="Blog Content" id="content" name="content"
+                                  required
+                                  data-validation-required-message="Please enter a message.">{{ content }}</textarea>
+                        <p class="help-block text-danger"></p>
+                    </div>
+                </div>
+                <br>
+                <div id="success"></div>
+                <div class="form-group">
+                    <button type="submit" class="btn
+              btn-secondary" id="sendMessageButton">Send
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<hr>
+{% endblock %}

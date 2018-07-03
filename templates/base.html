@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{{ '' if user == 'user' else user+"'s" }} Blog</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="{{ url_for('static', filename='font/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+    <!--<link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet'-->
+    <!--type='text/css'>-->
+    <!--<link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'-->
+    <!--rel='stylesheet' type='text/css'>-->
+    <!--&lt;!&ndash; Custom styles for this template &ndash;&gt;-->
+    <link href="{{ url_for('static', filename='css/clean-blog.min.css') }}" rel="stylesheet">
+    {% block style %}
+    {% endblock %}
+</head>
+
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand" href="{{ url_for('index') }}">{{ '' if user == 'user' else user+"'s" }} Blog</a>
+
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation">
+            Menu
+            <i class="fa fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('older') }}">All Posts</a>
+                </li>
+                {% if user != 'user' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('about', user_id=user) }}">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('add') }}">Add Post</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin') }}">Become a Blogger</a>
+                    </li>
+                {% endif %}
+
+            </ul>
+        </div>
+    </div>
+</nav>
+{% block body %}
+
+{% endblock %}
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                {% block footer %}
+                {% endblock %}
+                <p class="copyright text-muted">Copyright &copy; Your Website 2017</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap core JavaScript -->
+<script src="{{ url_for('static', filename='js/jquery.min2.js') }}"></script>
+<script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min2.js') }}"></script>
+<!-- Custom scripts for this template -->
+<script src="{{ url_for('static', filename='js/clean-blog.min.js') }}"></script>
+{% block script %}
+{% endblock %}
+</body>
+</html>

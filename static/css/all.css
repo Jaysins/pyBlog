@@ -1,0 +1,720 @@
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Raleway', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-weight: 300;
+            text-decoration: none;
+        }
+
+        *::selection {
+            background-color: #334;
+            color: #607d8b;
+        }
+
+        img {
+            width: 100%;
+            display: block;
+        }
+
+        body {
+            background-color: #f7f7f7;
+            font-size: 15px;
+        }
+
+        .competitions {
+            padding-top: 100px;
+            background-color: #f6f6f6;
+            height: 100vh;
+            overflow: hidden;
+            overflow-y: auto;
+        }
+        .competitions .heading {
+            border-left: 6px solid #5f85a0;
+            width: 50%;
+            margin: 30px auto;
+            padding: 1em 3em;
+        }
+        .competitions .heading h3 {
+            font-size: 1.24em;
+            text-transform: uppercase;
+            font-weight: 400;
+            color: rgb(68, 96, 133)
+        }
+        .competitions .competition a {
+            display: flex;
+            width: 100%;
+            flex-direction: column;
+            padding: 2em 3.5em;
+        }
+
+        .competition {
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            margin: 10px auto 20px;
+            border: 1px solid #eee;
+            background-color: #334;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all .15s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .competition>.edit {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            transform: translateY(-100%);
+            opacity: 0;
+            transition: all .15s ease-in-out;
+        }
+
+        .competition:hover>.edit {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .competition>.edit>a {
+            border: 0;
+            padding: .5em 1em;
+            border-radius: 3px;
+            background: #607d8b;
+            color: #eee;
+            cursor: pointer;
+        }
+
+        .competition>.edit>a:hover {
+            background: #7394a5;
+            color: #f3f3f3;
+        }
+
+        .competition:hover {
+            /* padding: 2.05em 3.5em; */
+            box-shadow: 0 20px 50px -16px rgba(0, 0, 0, .3);
+        }
+
+        .competition h3 {
+            font-size: 1.9em;
+            margin-bottom: 5px;
+            color: #ccc;
+        }
+
+        .competition h5 {
+            font-size: 1.2em;
+            color: #a8bfca88;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            overflow-y: auto;
+        }
+
+        .contestant {
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .contestant .image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #334;
+            padding: 20px;
+        }
+
+        .contestant .image .wrap {
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background-position: center;
+            background-size: cover;
+            box-shadow: 0 0 30px rgba(0, 0, 0, .2);
+        }
+
+        .contestant .details {
+            flex: 1;
+            display: flex;
+        }
+
+        .contestant .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px 50px;
+            color: #334;
+        }
+
+        .contestant .content .name h2 {
+            margin-bottom: 30px;
+            font-size: 2.8em;
+        }
+
+        .contestant .content .description p {
+            margin-bottom: 30px;
+            font-size: 1.2em;
+        }
+
+        .contestant .content button {
+            border: 0;
+            border-radius: 3px;
+            border-right: 4px solid rgb(201, 75, 75);
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: all .3s ease-in-out;
+            background-color: #333;
+            color: #fff;
+            display: flex;
+            align-items: stretch;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+            overflow: hidden;
+        }
+
+        .contestant .content button.voted {
+            border-right: 4px solid rgb(79, 139, 141);
+        }
+
+        .contestant .content button .text {
+            padding: 18px 40px;
+            flex: 3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ddd;
+        }
+
+        .contestant .content button .count {
+            flex: 1;
+            padding: 18px 15px;
+            background-color: #ccc;
+            color: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .contestant .content button:active {
+            transform: scale(1.04);
+        }
+
+        .contestants .title,
+        .competitions .title {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 18px 35px;
+            background-color: #fcfcfc;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+            text-align: center;
+            color: #333;
+            box-shadow: 0 18px 30px -18px rgba(0, 0, 0, .2);
+        }
+
+        .contestant .title h1 {
+            font-size: 1.2em;
+            text-transform: uppercase;
+        }
+
+        .menu-toggler {
+            position: fixed;
+            top: 20px;
+            right: 5%;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .menu-toggler .bar {
+            width: 38px;
+            height: 3px;
+            background-color: #555;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 5px;
+            transition: all .2s ease-in-out;
+            box-shadow: 0 0 5px rgba(0, 0, 0, .1);
+        }
+
+        .menu-toggler .bar::before,
+        .menu-toggler .bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgb(27, 52, 68);
+            border-radius: 5px;
+            transition: all .3s ease-in-out;
+            box-shadow: 0 0 5px rgba(0, 0, 0, .1);
+        }
+
+        .menu-toggler .bar::before {
+            top: -14px;
+        }
+
+        .menu-toggler .bar::after {
+            top: 14px;
+        }
+
+        .menu-toggler.open .bar {
+            background-color: transparent;
+        }
+
+        .menu-toggler.open .bar::before {
+            background-color: #ccc;
+            top: 0;
+            transform: rotate(-45deg);
+        }
+
+        .menu-toggler.open .bar::after {
+            background-color: #ccc;
+            top: 0;
+            transform: rotate(45deg);
+        }
+
+        .full-page-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, .96);
+            display: none;
+            z-index: 1
+        }
+
+        .full-page-menu.animate-in {
+            animation: scale-in .2s ease-in-out forwards;
+        }
+
+        .full-page-menu.animate-out {
+            animation: scale-out .2s ease-in-out forwards;
+        }
+
+        .full-page-menu.hide {
+            display: none;
+        }
+
+        .full-page-menu.show {
+            display: block;
+        }
+
+        .full-page-menu .close {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+        }
+
+        .full-page-menu .menu-items {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .full-page-menu .menu-items .menu-item {
+            flex: 1;
+            display: flex;
+            justify-content: flex-start;
+            padding: 0 100px;
+            align-items: center;
+            transition: all .2s ease-in-out;
+            cursor: pointer;
+            border-bottom: 2px solid rgba(0, 0, 0, .6);
+            font-size: 2.5em;
+            color: #bbb;
+            font-weight: normal;
+            text-transform: uppercase;
+        }
+
+        .full-page-menu .menu-items .menu-item:hover {
+            background-color: rgba(0, 0, 0, .3);
+            color: #eee;
+        }
+
+        @keyframes scale-in {
+            0% {
+                transform: scale(1.2);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes scale-out {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 800px) {
+            * {
+                font-size: 98%;
+            }
+            .competitions .heading {
+                width: 96%;
+            }
+            .competition {
+                width: 96%;
+            }
+            .contestants .contestant {
+                flex-direction: column;
+                text-align: center;
+                height: initial;
+            }
+            .contestants .contestant .image .wrap {
+                width: 200px;
+                height: 200px;
+            }
+            .contestants .content {
+                justify-content: center;
+                align-items: center;
+            }
+            .full-page-menu .menu-items .menu-item {
+                padding: 0 50px;
+            }
+        }
+
+        .admin {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .admin .top {
+            background: #334;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            padding: 0 50px;
+            border-bottom: 1px solid #222;
+            padding: 1em;
+        }
+
+        .admin .top form {
+            flex: 1;
+        }
+
+        .admin .top form .inline {
+            display: flex;
+            justify-content: center;
+        }
+
+        .admin .top form .inline input {
+            border: 0;
+            background-color: #f9f9f9;
+            padding: .7em 1em;
+            border-radius: 2px;
+            margin-right: 20px;
+            max-width: 300px;
+            font-size: .95em;
+        }
+
+        .admin .top form .inline button {
+            border: 0;
+            background-color: rgb(85, 85, 184);
+            color: #fff;
+            padding: .7em 1em;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: .95em;
+            transition: all .15s ease-in-out;
+            max-width: 300px;
+        }
+
+        .admin .top form .inline button:active {
+            transform: translateY(2px)
+        }
+
+        .admin .bottom {
+            flex: 1;
+        }
+
+        .admin .bottom .new-contestants {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .admin .bottom .new-contestant {
+            padding: 2em;
+        }
+
+        .admin .bottom .new-contestant .content {
+            border: 1px solid #eee;
+            background: #fff;
+            padding: 1em 1em .8em;
+            max-width: 300px;
+            box-shadow: 0 10px 20px -10px rgba(0, 0, 0, .1);
+        }
+
+        .admin .bottom .new-contestant .content .name {
+            margin-bottom: 20px;
+        }
+
+        .admin .bottom .new-contestant .content .name input[type="text"] {
+            display: inline-block;
+            background: #eee;
+            padding: .8em 1em;
+            font-size: .95em;
+            width: 100%;
+            border: 0;
+            border-radius: 3px;
+        }
+
+        input[type="file"]+label {
+            display: inline-block;
+            background: #f5f5f5;
+            padding: .5em 1em;
+            font-size: .93em;
+            width: 100%;
+            border-radius: 2px;
+            font-size: .95em;
+            cursor: pointer;
+            overflow: hidden;
+            word-wrap: normal;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        input[type="file"]:focus+label,
+        input[type="file"]+label:hover {
+            background: #ddd;
+            border: 0;
+        }
+
+        input[type="file"] {
+            position: absolute;
+            width: 0.1px;
+            height: 0.1px;
+            overflow: hidden;
+            z-index: -1;
+            border: 0;
+            opacity: 0;
+        }
+
+        .admin .bottom .create-competition {
+            text-align: center;
+            padding: 2em;
+        }
+
+        .admin .bottom .create-competition button {
+            border: 0;
+            padding: 1em 1.4em;
+            border-radius: 3px;
+            background-color: rgb(85, 85, 184);
+            font-size: 1em;
+            color: #ddd;
+            cursor: pointer;
+            transition: all .15s ease-in-out;
+        }
+
+        .admin .bottom .create-competition button:active {
+            transform: translateY(2px);
+        }
+
+        .error {
+            justify-content: center;
+            align-items: center;
+            padding: 2em 1em 1em;
+            display: none;
+        }
+
+        .error .content {
+            text-align: center;
+            background-color: rgb(180, 79, 79);
+            color: #fff;
+            font-size: .9em;
+            animation: error-in .2s ease-in-out forwards;
+            border-radius: 5px;
+            padding: 1em;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+        }
+
+        .error.show {
+            display: flex;
+        }
+
+        .login-wrap .title {
+            display: block;
+            text-align: center;
+            color: rgba(99, 169, 191, 0.95);
+            text-transform: uppercase;
+        }
+
+        .login-wrap hr {
+            border: 1px solid rgba(0, 0, 0, .03);
+            margin: 15px auto 30px;
+            width: 10%;
+        }
+
+        .login-wrap {
+            max-width: 400px;
+            margin: 150px auto;
+            padding: 2.5em 3em;
+            background-color: #333344;
+            border-radius: 4px;
+            box-shadow: 0 20px 50px -10px rgba(0, 0, 0, .4);
+            border-top: 2px solid rgba(100, 113, 191, 0.1);
+            text-align: center;
+        }
+
+        .login-wrap form>input::placeholder {
+            color: #607d8b;
+        }
+
+        .login-wrap form>input {
+            display: block;
+            width: 100%;
+            background-color: transparent;
+            border: 0;
+            border-bottom: 1px solid #ccc;
+            color: #eee;
+            padding: .7em 1em;
+            margin-bottom: 20px;
+            font-size: .99em;
+        }
+
+        .login-wrap form>input:disabled {
+            color: #aaa;
+            border-bottom: 1px solid #999;
+        }
+
+        .login-wrap form>input.input-error,
+        .login-wrap form>input:invalid {
+            border-bottom: 1px solid rgb(193, 80, 80);
+        }
+
+        .login-wrap form>button {
+            margin: 30px auto 50px;
+        }
+
+        .login-wrap .error {
+            background-color: rgba(255, 89, 107, 0.6);
+            color: #eee;
+            padding: .7em 1em;
+            border-radius: 2px;
+            margin: 30px auto 30px;
+            font-size: .9em;
+        }
+
+        .login-wrap .extra {
+            color: #aaa;
+            text-align: center;
+        }
+
+        .login-wrap .extra a {
+            color: #eee;
+            font-style: italic;
+        }
+
+        .Button {
+            display: inline-flex;
+            margin: 0;
+            border: 0;
+            padding: .6em 2em;
+            background-color: #58a5c8;
+            color: #eee;
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+            height: 40px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .Button.block {
+            width: 100%;
+        }
+
+        .Button:disabled {
+            background-color: rgba(76, 164, 191, 0.6);
+            cursor: default;
+        }
+
+        .Button span.loading {
+            width: 20px;
+            height: 20px;
+            position: relative;
+        }
+
+        .Button span.loading::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid rgba(0, 0, 0, .05);
+            border-top: 2px solid rgba(0, 0, 0, .5);
+            animation: rotate .5s linear infinite;
+        }
+
+        .Button:not(:disabled):hover {
+            background-color: #5090b1;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 400px) {
+
+            .login-wrap {
+                max-width: 400px;
+                margin: 150px auto;
+                padding: 4em 2em;
+                background-color: #333344;
+                border-radius: 0;
+            }
+        }
+
+        @keyframes error-in {
+            0% {
+                transform: scale(.9);
+                opacity: 0;
+            }
+            70% {
+                transform: scale(1.03);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 850px) {
+            .admin .top form .inline {
+                flex-direction: column;
+                align-items: center;
+            }
+            .admin .top form .inline>* {
+                margin-bottom: 10px;
+            }
+        }

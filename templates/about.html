@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <header class="masthead" style="background-image: url('{{ url_for('static', filename='img/post-bg.jpg') }}');
+            text-align:center">
+        <div class="post-heading">
+            <h1>Hey I'm {{ about.author }}</h1>
+        </div>
+        <div class="profile-image" style="background-image: url('{{ url_for('static', filename='img/'+image) }}')">
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <!--<div class="container">-->
+    <!--<div class="row">-->
+    <!--<div class="col-lg-8 col-md-10 mx-auto">-->
+    <!--<div class="page-heading">-->
+    <!--<h1>About Me</h1>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <div class="clearfix"></div>
+    {#    <br>#}
+    {#    <br>#}
+    {#    <br>#}
+    <br>
+    <br>
+
+    <br>
+    <div class="container" style="text-align:center;">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                {{ about.content }}
+            </div>
+        </div>
+        {% if user != 'user' %}
+            <div style="text-align:center;">
+                <a href="{{ url_for('add_about') }}">
+                    <i><b>Update Profile</b></i>
+                </a>
+            </div>
+        {% else %}
+
+            <a href="{{ url_for('contact', user_id=user_id) }}">
+                <i><b>Contact Me</b></i>
+            </a>
+        {% endif %}
+    </div>
+
+    <hr>
+{% endblock %}
+
+<!-- Footer -->
+{% block footer %}
+    <ul class="list-inline text-center">
+        <li class="list-inline-item">
+            <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+            </a>
+        </li>
+        <li class="list-inline-item">
+            <a href="http://www.facebook.com/{{ reach }}">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                  </span>
+            </a>
+        </li>
+        <li class="list-inline-item">
+            <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+            </a>
+        </li>
+    </ul>
+{% endblock %}

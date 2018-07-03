@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<!-- saved from url=(0037)http://192.168.137.209:5500/vote.html -->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Vote</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/all.css')}}">
+</head>
+
+<body>
+<div class="menu-toggler">
+    <div class="bar"></div>
+</div>
+<div class="full-page-menu">
+    <div class="menu-items">
+        <div class="menu-item">Home</div>
+        <div class="menu-item"><a class="nav-link" href="http://192.168.137.41:8000">Competitions</a></div>
+        <div class="menu-item"><a class="nav-link" href="{{url_for('older')}}">All Posts</a></div>
+        <div class="menu-item"><a class="nav-link" href="{{url_for('admin')}}">Admin</a></div>
+        <div class="menu-item"><a class="nav-link" href="http://192.168.137.209:3000">School website</a>
+        </div>
+    </div>
+</div>
+    <div class="login-wrap">
+        <h3 class="title">Host Login</h3>
+        <div class="error" id="error">
+            <div class="message" id="message">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus, quia?
+            </div>
+        </div>
+        <hr>
+        <form id="register_form" action="{{ url_for('login') }}" method="post">
+            {{ form.csrf_token }}
+            <input type="text" name="username" placeholder="Username" id="username" autocomplete="True">
+            <!--<input name="email" type="text" placeholder="Email Address" autofocus>-->
+            <input name="password" type="password" placeholder="Password" id="password" autocomplete="True">
+            <button class="Button">
+                <span id="load">login</span>
+            </button>
+        </form>
+
+        <p class="extra">Sign up <a href="{{ url_for('signup') }}">here</a></p>
+    </div>
+<script src="{{url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{url_for('static', filename='js/popper.min.js') }}"></script>
+<script src="{{url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<!-- Custom scripts for this template -->
+
+<script src="{{url_for('static', filename='js/login.js')}}"></script>
+
+</body>
+</html>

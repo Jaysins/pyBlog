@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>BLOG</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="{{url_for('static', filename='font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet'
+          type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+          rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="{{url_for('static', filename='clean-blog.min.css') }}" rel="stylesheet">
+    <style>
+        .like-btn {
+            padding: 15px 30px;
+            background-color: #eee;
+            color: #666;
+            border: 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .3) inset;
+            border-radius: 30px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .like-btn.active {
+            color: #094A9E;
+        }
+
+        .like-btn.active .fa {
+            animation-name: like;
+            animation-duration: .4s;
+            animation-timing-function: ease-in;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes like {
+            0% {
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(-20deg);
+            }
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+    </style>
+
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand" href="{{url_for('index')}}">BLOG</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation">
+            Menu
+            <i class="fa fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('index')}}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('older')}}">All Posts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('admin')}}">Admin</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Page Header -->
+<header class="masthead" style="background-image: url('{{url_for('static', filename='post-bg.jpg') }}')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="post-heading">
+                    <h1>{{post.title}}</h1>
+                    <h2 class="subheading">{{post.subtitle}}</h2>
+                    <span class="meta">Posted by
+                        <a href="{{url_for('about', user_id=user_id)}}">{{post.author}}</a>
+                {{post.date_posted.strftime('%B %d, %Y')}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                {{post.content}}
+                <br>
+            </div>
+        </div>
+        <div style="text-align:center;">
+            <a href="{{url_for('about', user_id=user_id)}}">
+                <i><b>About the author</b></i>
+            </a>
+        </div>
+    </div>
+</article>
+<hr>
+<div class="container" style="text-align:center;">
+    <button class="like-btn" id="likebutton">
+        <span id="sum"></span>
+        <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+    </button>
+    <button class="like-btn" id="comment-button">
+        <i class="fa fa-comments" aria-hidden="true"></i>
+    </button>
+</div>
+
+
+<div class="container">
+    <div id="comments">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <form name="addForm" onsubmit="return comments()" method="POST" action="{{url_for('addComment', post_id=post.id)}}" id="commentForm" >
+                    <div class="control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <label>Name</label>
+                            <input autocomplete="name" type="text" class="form-control" placeholder="Name" name="name" id="name" required
+                                   data-validation-required-message="Please enter your name.">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <label>Email</label>
+                            <input autocomplete="email" type="email" class="form-control" placeholder="Email" name="email" id="email"
+                                   required
+                                   data-validation-required-message="Please enter your email address.">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls">
+                            <label>Comment</label>
+                            <textarea rows="5" class="form-control" placeholder="Comment" id="comment" name="comment"
+                                      required data-validation-required-message="Enter comment."></textarea>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="success"></div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-secondary" id="sendMessageButton" value="submit">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="post-heading">
+    <h2 class="post-title" style="text-align:center;">
+        {{ no }} Comments
+    </h2>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            {% for comment in comments %}
+            <div class="post-preview">
+                <h3 class="post-title">
+                    {{comment.name}}
+                </h3>
+                <h4 class="post-subtitle">
+                    {{comment.comment}}
+                </h4>
+                <p class="post-meta">Posted on
+                    {{comment.date_posted.strftime('%B %d, %Y, %H:%M%p')}}
+                </p>
+                <div class="container">
+                    <button class="like-btn" >
+                        <span id="sums{{comment.id}}"></span>
+                        <i id="like_comment_button {{comment.id}}" class="fa fa-thumbs-up" aria-hidden="true"></i>
+                    </button>
+                    <button class="like-btn" id="reply-button">
+                        <i class="fa fa-comments" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <div class="clearfix">
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+
+
+<!-- Bootstrap core JavaScript -->
+<script src="{{url_for('static', filename='jquery.min.js') }}"></script>
+<script src="{{url_for('static', filename='popper.min.js') }}"></script>
+<script src="{{url_for('static', filename='bootstrap.min.js') }}"></script>
+
+<!-- Custom scripts for this template -->
+<script src="{{url_for('static', filename='clean-blog.min.js') }}"></script>
+<script src="{{ url_for('static', filename='client.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='socket.io.min.js') }}"></script>
+
+<script>
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+var client = new ClientJS(); // Create A New Client Object
+
+var fingerprint = client.getFingerprint(); // Calculate Device/Browser Fingerprint
+
+	    let like = 0
+
+	    var d = document.getElementById("likebutton");
+        let likeBtn = d
+        likeBtn.addEventListener('click', toggleLikeAnimation);
+
+   socket.on( 'connect', function() {
+   socket.emit( 'connects', fingerprint)
+   })
+
+        function toggleLikeAnimation() {
+            if (d.classList.contains('active')) {
+                d.classList.remove('active');
+                like = like - 1;
+                  if (like == -1){
+                      like = 0
+                 }
+
+                console.log(like);
+                req = $.ajax({
+                url : '/',
+                type : 'POST',
+                data : {like: like, fingerprint: fingerprint}}
+                )
+                socket.emit('fingerprint', fingerprint);
+                socket.emit('like', like);
+
+            } else {
+                d.classList.add('active');
+                if (like == -1){
+                        like = 0
+                 }
+                like = like + 1;
+                console.log(like);
+                req = $.ajax({
+                url : '/checks',
+                type : 'POST',
+                data : {like: like, fingerprint: fingerprint}}
+                )
+
+            }
+        }
+
+
+        function toggleLikeAnimations(s) {
+        let likes = 0
+            if (s.classList.contains('active')) {
+                s.classList.remove('active');
+                likes = likes - 1;
+                  if (likes == -1){
+                      likes = 0
+                 }
+                console.log(likes);
+                socket.emit('fingerprint', fingerprint);
+                socket.emit('likes', likes);
+            } else {
+                s.classList.add('active');
+                if (likes == -1){
+                        likes = 0
+                 }
+                likes = likes + 1;
+                console.log(likes);
+                 socket.emit('fingerprint', fingerprint);
+                socket.emit('likes', likes);
+            }
+        }
+
+
+socket.on('show likes', function (data) {
+if (data.fingerprint == fingerprint){
+if ((data.like) == 1){
+document.getElementById("likebutton").className += " active";
+}
+}
+});
+
+socket.on('show commlikes', function (data) {
+
+if (data.fingerprint === fingerprint){
+if (data.liked === 1){
+document.getElementById("like_comment_button " + data.comm).parentElement.className += " active"
+}
+
+}
+});
+
+socket.on('sum likes', function (data) {
+if (data.sum == 0){
+document.getElementById('sum').innerHTML = ''
+}else{
+document.getElementById('sum').innerHTML = data.sum
+}
+});
+
+socket.on('sum likecomm', function (data) {
+if (data.sum == 0){
+document.getElementById('sums' + data.id).innerHTML = ''
+}else{
+document.getElementById('sums' + data.id).innerHTML = data.sum
+}
+});
+
+$(window).on('beforeunload', function(){
+  socket.emit('disconnect');
+});
+
+
+$(document).ready(function(){
+ $('#comments').hide();
+     $('#comment-button').on('click', function(){
+    $('#comments').toggle(3000);
+     $(window).on('beforeunload', function(){
+     $('#comments').hide();
+     });
+ });
+ });
+
+
+$(document).click(function(onclick){
+var text = $(event.target)[0].id;
+check = text.split(/\s+|\./).includes("like_comment_button");
+if (check === true){
+var rep  = text.replace("like_comment_button ","");
+socket.emit('comm', rep);
+get = document.getElementById(text);
+toggleLikeAnimations(get.parentElement)
+}
+else{
+if ($(event.target)[0].children[1] !== undefined){
+recheck = $(event.target)[0].children[1].id
+checks = recheck.split(/\s+|\./).includes("like_comment_button");
+if (checks === true){
+var reps  = recheck.replace("like_comment_button ","");
+socket.emit('comm', reps);
+get = document.getElementById(recheck);
+toggleLikeAnimations(get.parentElement)
+}
+}
+}
+});
+
+function comments(){
+var name = document.forms["addForm"]["name"].value;
+var email = document.forms["addForm"]["email"].value;
+var comment = document.forms["addForm"]["comment"].value;
+var div = document.createElement('div');
+div.setAttribute('class', 'post-preview');
+
+socket.emit('new comment', name, email, comment);
+return false;
+}
+
+
+</script>
+
+</body>
+
+</html>

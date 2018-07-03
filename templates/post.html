@@ -1,0 +1,351 @@
+{% extends 'base.html' %}
+
+{% block style %}
+    <link href="{{ url_for('static', filename='css/please-wait.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/default.css') }}" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/comments.css') }}">
+
+    <style>
+        .like-btn {
+            padding: 15px 30px;
+            background-color: #eee;
+            color: #666;
+            border: 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .3) inset;
+            border-radius: 30px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .like-btn.active {
+            color: #094A9E;
+        }
+
+        .like-btn.active .fa {
+            animation-name: like;
+            animation-duration: .4s;
+            animation-timing-function: ease-in;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes like {
+            0% {
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(-20deg);
+            }
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+
+        .comment-wrap {
+            width: 700px;
+            margin: 20px auto;
+            padding: 0px;
+        }
+
+        .comment-wrap .comment-in {
+            display: flex;
+            padding-bottom: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 10px -10px rgba(0, 0, 0, .1);
+        }
+
+        .comment-wrap .comment-in > * {
+            flex: 1;
+        }
+
+        .comment-wrap .comment-in .input-wrap {
+            flex: 4;
+        }
+
+        .comment-wrap .comment-in .input-wrap textarea {
+            width: 100%;
+            height: 100px;
+            border: 0;
+            border-radius: 3px;
+            padding: 20px;
+            font-size: .85em;
+            border: 1px solid #eee;
+            resize: none;
+            color: cadetblue !important;
+            background-color: #fff;
+        }
+
+        textarea::-moz-place­holder,
+        textarea::-webkit-in­put-placeholder {
+            color: #999;
+        }
+
+        .comment-wrap .comment-in .btn-wrap {
+            align-self: flex-end;
+        }
+
+        .comment-wrap .comment-in .btn-wrap .btn {
+            margin: 0 10px 5px;
+            padding: 9px 25px;
+            border: 0;
+            font-size: .9em;
+            border-radius: 3px;
+            background: rgb(115, 203, 206);
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .comment-wrap .comment-in .btn-wrap .btn:hover {
+            background: rgb(102, 183, 185);
+        }
+
+
+    </style>
+
+{% endblock %}
+
+{% block body %}
+<!-- Page Header -->
+<header class="masthead" style="background-image: url('{{ url_for('static', filename='img/post-bg.jpg') }}')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="post-heading">
+                    <h1>{{ post.title }}</h1>
+                    <h2 class="subheading">{{ post.subtitle }}</h2>
+                    <span class="meta">Posted by
+                        <a href="{{ url_for('about', user_id=post.author) }}">{{ post.author }}</a>
+                        {{ post.date_posted.strftime('%B %d, %Y') }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                {{ post.content }}
+                <br>
+            </div>
+        </div>
+        <div style="text-align:center;">
+            <a href="{{ url_for('about', user_id=user_id) }}">
+                <i><b>About the author</b></i>
+            </a>
+        </div>
+    </div>
+</article>
+<hr>
+<div class="container" style="text-align:center;">
+    <button class="like-btn" id="likebutton">
+        <span id="sum"></span>
+        <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+    </button>
+    <button class="like-btn" id="comment-button">
+        <i class="fa fa-comments" aria-hidden="true"></i>
+    </button>
+</div>
+
+<input type="text" id="post_id" value="{{ post.id }}" hidden>
+<div class="container">
+    <div id="comments">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <form action="#" name="sendMessage" id="contactForm" method="post">
+                    <div class="control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <label>Name</label>
+                            <input autocomplete="name" type="text" class="form-control" placeholder="Name" name="name"
+                                   id="name" required
+                                   data-validation-required-message="Please enter your name.">
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <label>Email</label>
+                            <input autocomplete="email" type="email" class="form-control" placeholder="Email"
+                                   name="email" id="email"
+                                   required
+                                   data-validation-required-message="Please enter your email address.">
+                            <p class="help-block text-danger" id="email-danger"></p>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls">
+                            <div class="comment-wrap">
+                                <div class="comment-in">
+                                    <div class="input-wrap">
+                                        <textarea m name="comment-input" id="comment-input"
+                                                  placeholder="Post a comment" required></textarea>
+                                    </div>
+                                    <div class="btn-wrap">
+                                        <button class="btn" id="comment-btn">Post</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="post-heading">
+    <h2 class="post-title" style="text-align:center;" id="comment_head">
+        {{ no }} Comments
+    </h2>
+</div>
+<div class="container">
+    <div class="row comments">
+        <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="comment-out"></div>
+            {% for comment in comments %}
+                <div class="post-preview">
+                    <h3 class="post-title">
+                        {{ comment.name }}
+                    </h3>
+                    <h4 class="post-subtitle">
+                        {{ comment.comment }}
+                    </h4>
+                    <p class="post-meta">Posted on
+                        {{ comment.date_posted.strftime('%B %d, %Y, %H:%M%p') }}
+                    </p>
+                    <div class="container">
+                        <button class="like-btn">
+                            <span id="sums{{ comment.id }}"></span>
+                            <i id="like_comment_button {{ comment.id }}" class="fa fa-thumbs-up" aria-hidden="true"></i>
+                        </button>
+                        <button class="like-btn" id="reply_button{{ comment.id }}">
+                            <i class="fa fa-comments" aria-hidden="true"></i>
+                        </button>
+                        <button class="like-btn" id="view_all{{ comment.id }}">
+                            <i class="fa fa-comments" aria-hidden="true" id="rep_len{{ comment.id }}">9</i>
+                        </button>
+                    </div>
+
+                    <div class="container">
+                        <div class="reply" id="reply{{ comment.id }}">
+                            <!--<div class="row">-->
+                            <div class="">
+                                <form action="#" name="sendMessage" id="replyForm{{ comment.id }}" method="post">
+                                    <div class="control-group">
+                                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                                            <label>Name</label>
+                                            <input autocomplete="name" type="text" class="form-control"
+                                                   placeholder="Name" name="name"
+                                                   id="reply-name{{ comment.id }}" required
+                                                   data-validation-required-message="Please enter your name.">
+                                            <p class="help-block text-danger"></p>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                                            <label>Email</label>
+                                            <input autocomplete="email" type="email" class="form-control"
+                                                   placeholder="Email"
+                                                   name="email" id="reply-email{{ comment.id }}"
+                                                   required
+                                                   data-validation-required-message="Please enter your email address.">
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <div class="form-group floating-label-form-group controls">
+                                            <div class="comment-wrap">
+                                                <div class="comment-in">
+                                                    <div class="input-wrap">
+                                        <textarea name="comment-input" id="reply-input{{ comment.id }}"
+                                                  placeholder="Post a comment" required></textarea>
+                                                    </div>
+                                                    <div class="btn-wrap">
+                                                        <button class="btn" id="reply-btn{{ comment.id }}">Post</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </form>
+                            </div>
+                            <!--</div>-->
+                        </div>
+                    </div>
+                    <div class="reply" id="replies{{ comment.id }}">
+                        <div class="post-heading">
+                            <h2 class="post-title" style="text-align:center;" id="reply_head{{ comment.id }}">
+                                No Replies
+                            </h2>
+                        </div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12" id="show_reply{{ comment.id }}">
+                                    <div id="reply-out{{ comment.id }}"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+<!-- Footer -->
+{% endblock %}
+{% block footer %}
+    <ul class="list-inline text-center">
+        <li class="list-inline-item">
+            <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+            </a>
+        </li>
+        <li class="list-inline-item">
+            <a href="http://www.facebook.com/{{ reach }}">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                  </span>
+            </a>
+        </li>
+        <li class="list-inline-item">
+            <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+            </a>
+        </li>
+    </ul>
+{% endblock %}
+
+
+<!-- Bootstrap core JavaScript -->
+{% block script %}
+<script src="{{ url_for('static', filename='js/please-wait.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/angular.min.js') }}"></script>
+<script>
+    let loading_screen = window.pleaseWait({
+    logo: "",
+    backgroundColor: '#f46d3b',
+    loadingHtml: "<div class='sk-spinner sk-spinner-wave'><div class='sk-rect1'></div><div class='sk-rect2'></div><div class='sk-rect3'></div><div class='sk-rect4'></div><div class='sk-rect5'></div></div><br><p>a good day rey?</p>"
+});
+</script>
+
+<script src="{{ url_for('static', filename='js/client.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/like.js') }}"></script>
+<!-- Custom scripts for this template -->
+<!-- Custom scripts for this template -->
+<script src="{{ url_for('static', filename='js/comment.js') }}"></script>
+
+{% endblock %}
