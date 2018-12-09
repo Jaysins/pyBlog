@@ -18,9 +18,9 @@ from datetime import datetime
 import os
 
 app = Flask(__name__)
-# file_path = os.path.abspath(os.getcwd()) + "\database.db"
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + file_path
+file_path = os.path.abspath(os.getcwd()) + "\database.db"
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + file_path
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 photos = UploadSet('photos', IMAGES)
 app.config['UPLOADED_PHOTOS_DEST'] = 'static/img'
